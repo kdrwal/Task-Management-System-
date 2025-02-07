@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="TaskManagerWPF.Views.Many.TaskAssignmentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="850">
+    <Grid Margin="10">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            
+            <RowDefinition Height="Auto"/>
+            
+            <RowDefinition Height="Auto"/>
+          
+            <RowDefinition Height="*"/>
+            
+        </Grid.RowDefinitions>
+
+       
+        <TextBlock Text="Task Assignment" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   Foreground="DarkSlateBlue" 
+                   Margin="0,0,0,20" 
+                   HorizontalAlignment="Center"
+                   Grid.Row="0"/>
+
+        
+        <Border Grid.Row="1" 
+                Background="#FFF" 
+                CornerRadius="8" 
+                Padding="16" 
+                BorderBrush="#DDD" 
+                BorderThickness="1" 
+                Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+               
+                <TextBlock Text="Select Task:" 
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,10"/>
+                <ComboBox x:Name="TasksComboBox" 
+                          Grid.Column="1" 
+                          Margin="0,0,0,10" 
+                          Width="250"
+                          ItemsSource="{Binding Tasks}"
+                          SelectedItem="{Binding SelectedTask}"
+                          DisplayMemberPath="Title"/>
+
+                
+                <TextBlock Text="Select User:" 
+                           Grid.Row="1"
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,10"/>
+                <ComboBox x:Name="UsersComboBox" 
+                          Grid.Row="1" 
+                          Grid.Column="1" 
+                          Margin="0,0,0,10" 
+                          Width="250"
+                          ItemsSource="{Binding Users}"
+                          SelectedItem="{Binding SelectedUser}"
+                          DisplayMemberPath="Username"/>
+
+                
+                <Button Content="Assign Task" 
+                        Grid.Row="2" 
+                        Grid.ColumnSpan="2" 
+                        Width="150" 
+                        Height="35" 
+                        HorizontalAlignment="Center" 
+                        Command="{Binding AssignTaskCommand}"/>
+            </Grid>
+        </Border>
+
+       
+        <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Content="Search:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            
+            <ComboBox x:Name="FilterComboBox" 
+                      Grid.Column="1"
+                      ItemsSource="{Binding SearchComboBoxDto}"
+                      SelectedValuePath="PropertyTitle"
+                      DisplayMemberPath="DisplayName"
+                      SelectedValue="{Binding SearchProperty}"
+                      Width="120" Margin="0,0,5,0"/>
+            
+            <TextBox Grid.Column="2" 
+                     Width="150" 
+                     Text="{Binding SearchInput, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,0,5,0"/>
+            
+            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Filter" Command="{Binding FilterCommand}" Margin="5,0" Width="80"/>
+                <Button Content="Clear" Command="{Binding ClearFiltersCommand}" Margin="5,0" Width="80"/>
+                <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="5,0" Width="80"/>
+            </StackPanel>
+        </Grid>
+
+        
+        <DataGrid Grid.Row="3" 
+                  ItemsSource="{Binding TaskAssignments}" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedTaskAssignment}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding TaskAssignmentId}" 
+                                    Width="80"/>
+                <DataGridTextColumn Header="Task" 
+                                    Binding="{Binding TaskTitle}" 
+                                    Width="*"/>
+                <DataGridTextColumn Header="User" 
+                                    Binding="{Binding UserName}" 
+                                    Width="*"/>
+                <DataGridTextColumn Header="Assigned At" 
+                                    Binding="{Binding AssignedAt, StringFormat={}{0:dd/MM/yyyy HH:mm}}" 
+                                    Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

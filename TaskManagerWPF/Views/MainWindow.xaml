@@ -1,0 +1,78 @@
+﻿<Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namesapce:TaskMangerWPF"
+        xmlns:resx="clr-namespace:TaskManagerWPF.ViewResources"
+        xmlns:ViewModels="clr-namespace:TaskManagerWPF.ViewModels"
+        
+        x:Class="TaskManagerWPF.Views.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="1200"
+        WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary Source="MainWindowResources.xaml"/>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <ViewModels:MainWindowViewModel/>
+    </Window.DataContext>
+    
+
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="1" Background="#E0FFFF" Height="40">
+            <TextBlock Text="Get Things Done" VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                       Foreground="DarkSlateBlue"
+                FontSize="16">
+                
+            </TextBlock>
+            <TextBlock Text="{Binding CurrentDateTime, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}"
+               Margin="10,0,20,0"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Right"
+               FontWeight="Bold"
+               FontSize="16"
+               Foreground="DarkSlateBlue"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="#E0FFFF">
+                <!--Buttons in side bar here -->
+                <HeaderedContentControl
+                    Background="AliceBlue"
+                    Content="{Binding Commands}"
+                    ContentTemplate="{StaticResource CommandsTemplate}" 
+                    />
+            </Border>
+            <Border Grid.Column="1">
+                <HeaderedContentControl
+                    
+                    Background="DarkSlateBlue"
+                    Content="{Binding Workspaces}"
+                    ContentTemplate="{StaticResource WorkspacesTemplate}" 
+                    />
+            </Border>
+        </Grid>
+
+        <StatusBar Grid.Row="3" Background="LightSteelBlue">
+            <StatusBarItem>
+                <TextBlock><Run Text="Task Manager"/></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
